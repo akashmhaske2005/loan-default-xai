@@ -1,0 +1,14 @@
+:root {
+
+  --primary: #1E3A8A;
+  --secondary: #3B82F6;
+  --success: #22C55E;
+  --danger: #EF4444;
+  --warning: #F59E0B;
+  --bg: #F5F7FB;
+
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+  --transition: 0.3s ease;
+}
