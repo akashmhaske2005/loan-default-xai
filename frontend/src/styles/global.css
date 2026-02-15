@@ -1,0 +1,43 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--bg);
+  margin: 0;
+}
+
+.container {
+  padding: 40px 80px;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #3B82F6, #1E3A8A);
+  border: none;
+  padding: 12px 28px;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+}
+
+.card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 25px;
+}
+
+.loader {
+  width: 60px;
+  height: 60px;
+  border: 5px solid #ddd;
+  border-top: 5px solid #3B82F6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
