@@ -1,0 +1,86 @@
+@import "./variables.css";
+
+.hero {
+  height: 100vh;
+  background: linear-gradient(135deg,#1e3a8a,#6366f1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.hero-buttons button {
+  margin: 10px;
+}
+
+.btn-primary {
+  background: white;
+  color: #1e3a8a;
+  padding: 12px 26px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 12px 26px;
+  border-radius: 10px;
+}
+
+.section {
+  padding: 80px 60px;
+  background: var(--bg-main);
+}
+
+.section.dark {
+  background: #0f172a;
+  color: white;
+}
+
+.two-col {
+  display: flex;
+  gap: 40px;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  flex: 1;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 30px;
+}
+
+.feature-card {
+  padding: 30px;
+  background: white;
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 40px;
+}
+
+.cta {
+  padding: 80px;
+  text-align: center;
+  background: linear-gradient(135deg,#6366f1,#3b82f6);
+  color: white;
+}

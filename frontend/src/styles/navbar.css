@@ -1,0 +1,31 @@
+@import "./variables.css";
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 60px;
+
+  backdrop-filter: blur(14px);
+  background: var(--glass-bg);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.logo {
+  color: white;
+  font-weight: 700;
+}
+
+.nav-links a {
+  margin-left: 25px;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: var(--secondary);
+}

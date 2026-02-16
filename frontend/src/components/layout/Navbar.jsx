@@ -1,20 +1,17 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import "../../styles/navbar.css";
 
 export default function Navbar() {
   return (
-    <motion.nav 
-      className="navbar"
-      initial={{ y: -60 }}
-      animate={{ y: 0 }}
-    >
-      <h2>Loan Insight</h2>
+    <nav className="navbar">
+      <h2 className="logo">LoanXAI</h2>
 
-      <div>
+      <div className="nav-links">
         <Link to="/">Home</Link>
         <Link to="/predict">Predict</Link>
-        <Link to="/explain">Explanation</Link>
+        <Link to="/docs">Docs</Link>
+        <Link to="/about">About</Link>
       </div>
-    </motion.nav>
+    </nav>
   );
 }
