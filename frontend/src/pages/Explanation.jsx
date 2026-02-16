@@ -1,4 +1,4 @@
-import Navbar from "../components/layout/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 import Card from "../components/ui/Card";
 
 export default function Explanation() {

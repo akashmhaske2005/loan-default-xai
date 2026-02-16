@@ -1,0 +1,151 @@
+.hero {
+  min-height: 100vh;
+  background: linear-gradient(120deg,#1e3a8a,#60a5fa);
+  display: flex;
+  align-items: center;
+  padding-top: 80px;
+}
+
+.hero-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px;
+  color: white;
+}
+
+.hero-left h1 {
+  font-size: 48px;
+  max-width: 520px;
+}
+
+.hero-left p {
+  margin-top: 20px;
+  max-width: 420px;
+  opacity: 0.9;
+}
+
+.hero-buttons {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+}
+
+.primary-btn {
+  background: #2563eb;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 10px;
+}
+
+.hero-right img {
+  width: 520px;
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Problem */
+
+.problem-solution {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 60px;
+  background: #f3f6fb;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 14px;
+  width: 320px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Features */
+
+.features {
+  text-align: center;
+  padding: 60px;
+}
+
+.feature-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.feature-card {
+  background: white;
+  padding: 30px;
+  border-radius: 14px;
+  width: 260px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+}
+
+/* Steps */
+
+.how-works {
+  text-align: center;
+  padding: 60px;
+  background: #f9fbff;
+}
+
+.steps {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.step {
+  background: white;
+  padding: 18px 28px;
+  border-radius: 50px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+}
+
+/* Tech */
+
+.tech-stack {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  padding: 40px;
+  font-weight: 600;
+}
+
+/* CTA */
+
+.cta {
+  background: linear-gradient(120deg,#2563eb,#a855f7);
+  text-align: center;
+  padding: 60px;
+  color: white;
+}
+
+.cta button {
+  margin-top: 20px;
+  padding: 14px 40px;
+  border-radius: 12px;
+  border: none;
+  background: white;
+  color: #1e3a8a;
+  font-weight: 600;
+  cursor: pointer;
+}

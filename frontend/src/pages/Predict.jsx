@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Navbar from "../components/layout/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import usePrediction from "../hooks/usePrediction";

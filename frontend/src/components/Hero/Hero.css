@@ -1,0 +1,213 @@
+/* ===== HERO ROOT ===== */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding-top: 120px;
+  overflow: hidden;
+
+  background: linear-gradient(
+    120deg,
+    #2c3e9d,
+    #3e7bdc,
+    #79c2ff
+  );
+
+  color: white;
+}
+
+/* ===== BACKGROUND GLOW ===== */
+
+.hero-bg-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.glow1 {
+  width: 500px;
+  height: 500px;
+  background: #8f7cff;
+  top: -100px;
+  left: -100px;
+}
+
+.glow2 {
+  width: 500px;
+  height: 500px;
+  background: #5ddcff;
+  bottom: -150px;
+  right: -150px;
+}
+
+/* ===== CONTAINER ===== */
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+
+  max-width: 1300px;
+  margin: auto;
+  padding: 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+}
+
+/* ===== LEFT CONTENT ===== */
+
+.hero-content {
+  flex: 1;
+  animation: fadeSlideLeft 1s ease;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  max-width: 420px;
+}
+
+/* ===== BUTTONS ===== */
+
+.hero-buttons {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-primary {
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  border: none;
+
+  background: linear-gradient(120deg,#5c7cff,#7d9cff);
+  color: white;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.btn-secondary {
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.5);
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* ===== IMAGE SECTION ===== */
+
+.hero-image-wrapper {
+  flex: 1;
+  position: relative;
+  animation: fadeSlideRight 1s ease;
+}
+
+.hero-dashboard {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
+
+/* ===== FLOATING CARDS ===== */
+
+.floating-card {
+  position: absolute;
+  padding: 12px 16px;
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+
+  font-size: 1.2rem;
+  animation: float 4s ease-in-out infinite;
+}
+
+.card1 {
+  top: 30%;
+  left: -30px;
+}
+
+.card2 {
+  bottom: 25%;
+  right: -30px;
+  animation-delay: 1s;
+}
+
+.card3 {
+  top: 10%;
+  right: 50px;
+  animation-delay: 2s;
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes fadeSlideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeSlideRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 900px) {
+
+  .hero-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-dashboard {
+    max-width: 420px;
+  }
+
+}

@@ -1,0 +1,40 @@
+<svg width="220" height="60" viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Gradient Definitions -->
+  <defs>
+    <linearGradient id="loanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F8CFF"/>
+      <stop offset="100%" stop-color="#7DE2FC"/>
+    </linearGradient>
+
+    <linearGradient id="xaiGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A855F7"/>
+      <stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+  </defs>
+
+  <!-- AI Finance Icon -->
+  <g transform="translate(5,8)">
+    
+    <!-- Outer Ring -->
+    <circle cx="22" cy="22" r="18" stroke="url(#loanGradient)" stroke-width="3" fill="none"/>
+
+    <!-- Inner Bars (Financial Chart) -->
+    <rect x="16" y="20" width="4" height="10" fill="url(#loanGradient)" rx="2"/>
+    <rect x="22" y="16" width="4" height="14" fill="url(#loanGradient)" rx="2"/>
+    <rect x="28" y="12" width="4" height="18" fill="url(#loanGradient)" rx="2"/>
+
+    <!-- AI Orbit Node -->
+    <circle cx="35" cy="10" r="4" fill="url(#xaiGradient)"/>
+  </g>
+
+  <!-- Text -->
+  <text x="60" y="38" font-family="Poppins, sans-serif" font-size="26" font-weight="600" fill="#FFFFFF">
+    Loan
+  </text>
+
+  <text x="125" y="38" font-family="Poppins, sans-serif" font-size="26" font-weight="700" fill="url(#xaiGradient)">
+    XAI
+  </text>
+
+</svg>

@@ -1,0 +1,26 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <linearGradient id="iconBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F8CFF"/>
+      <stop offset="100%" stop-color="#7DE2FC"/>
+    </linearGradient>
+
+    <linearGradient id="iconPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A855F7"/>
+      <stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Glass Circle -->
+  <circle cx="25" cy="25" r="20" fill="rgba(255,255,255,0.05)" stroke="url(#iconBlue)" stroke-width="2"/>
+
+  <!-- Chart Bars -->
+  <rect x="18" y="24" width="4" height="8" fill="url(#iconBlue)" rx="2"/>
+  <rect x="24" y="20" width="4" height="12" fill="url(#iconBlue)" rx="2"/>
+  <rect x="30" y="16" width="4" height="16" fill="url(#iconBlue)" rx="2"/>
+
+  <!-- AI Node -->
+  <circle cx="34" cy="14" r="3" fill="url(#iconPurple)"/>
+
+</svg>

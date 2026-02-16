@@ -1,0 +1,28 @@
+.footer {
+  background: #1e3a8a;
+  color: white;
+  padding: 60px;
+}
+
+.footer-grid {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer h4 {
+  margin-bottom: 15px;
+}
+
+.footer p {
+  opacity: 0.85;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.footer p:hover {
+  opacity: 1;
+}
+
+copyright {
+  margin-top: 40px;
+}

@@ -1,0 +1,198 @@
+/* ===== NAVBAR ROOT ===== */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+
+  /* Gradient Background */
+  background: linear-gradient(
+    120deg,
+    rgba(37, 51, 135, 0.75),
+    rgba(78, 132, 197, 0.65)
+  );
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+  transition: all 0.4s ease;
+}
+
+/* Scroll effect (Keeps Gradient — NO BLACK) */
+.navbar-scroll {
+  background: linear-gradient(
+    120deg,
+    rgba(30, 50, 120, 0.85),
+    rgba(70, 120, 190, 0.75)
+  );
+  backdrop-filter: blur(20px);
+  box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+}
+
+/* ===== CONTAINER ===== */
+
+.nav-container {
+  max-width: 1300px;
+  margin: auto;
+  padding: 1rem 2rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ================= LOGO ================= */
+/* ===== LOGO WRAPPER ===== */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+/* ===== SVG Logo Image ===== */
+
+.logo-img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+
+  /* Futuristic glow */
+  filter: drop-shadow(0 0 6px rgba(120, 200, 255, 0.6));
+
+  transition: transform 0.3s ease;
+}
+
+/* Hover animation */
+.logo:hover .logo-img {
+  transform: scale(1.08);
+}
+
+/* ===== TEXT WRAPPER ===== */
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+
+
+/* Loan text normal */
+.logo-loan {
+  color: white;
+}
+
+/* XAI Gradient Text */
+.logo-xai {
+  margin-left: 2px;
+  background: linear-gradient(120deg, #6ee7ff, #a78bfa, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+/* ===== NAV LINKS ===== */
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.nav-links a {
+  position: relative;
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+/* Hover underline animation */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: #9cd7ff;
+  transition: 0.3s;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Active Route */
+.nav-links a.active {
+  color: #9cd7ff;
+}
+
+/* Login Button */
+.login-btn {
+  padding: 0.5rem 1.4rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.3);
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* ===== MOBILE MENU ===== */
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 26px;
+  height: 3px;
+  background: white;
+  margin: 4px 0;
+  transition: 0.3s;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+
+@media (max-width: 900px) {
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 75px;
+    right: 0;
+
+    width: 100%;
+    flex-direction: column;
+    background: linear-gradient(
+      120deg,
+      rgba(37, 51, 135, 0.95),
+      rgba(78, 132, 197, 0.95)
+    );
+
+    backdrop-filter: blur(18px);
+
+    padding: 2rem 0;
+    gap: 1.5rem;
+
+    transform: translateY(-120%);
+    transition: 0.4s ease;
+  }
+
+  .nav-links.open {
+    transform: translateY(0);
+  }
+}
