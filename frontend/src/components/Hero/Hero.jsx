@@ -1,5 +1,6 @@
 import React from "react";
 import "./Hero.css";
+import dashboard from "../../assets/images/dashboard.png";
 
 const Hero = () => {
   return (
@@ -39,7 +40,11 @@ const Hero = () => {
         {/* RIGHT DASHBOARD IMAGE */}
         <div className="hero-image-wrapper">
 
-          
+          <img
+            src={dashboard}
+            alt="Dashboard"
+            className="hero-dashboard"
+          />
 
           {/* Floating Cards */}
           <div className="floating-card card1">
