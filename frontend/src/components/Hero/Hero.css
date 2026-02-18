@@ -1,37 +1,29 @@
-/* ===== HERO ROOT ===== */
+/* ================= HERO ROOT ================= */
 
 .hero {
   position: relative;
   min-height: 100vh;
   padding-top: 120px;
   overflow: hidden;
-
-  background: linear-gradient(
-    120deg,
-    #2c3e9d,
-    #3e7bdc,
-    #79c2ff
-  );
-
+  background: linear-gradient(120deg,#2c3e9d,#3e7bdc,#79c2ff);
   color: white;
 }
 
-/* ===== BACKGROUND GLOW ===== */
+/* ================= BACKGROUND GLOW ================= */
 
 .hero-bg-glow {
   position: absolute;
   border-radius: 50%;
-  filter: blur(120px);
+  filter: blur(130px);
   opacity: 0.5;
-  z-index: 0;
 }
 
 .glow1 {
   width: 500px;
   height: 500px;
   background: #8f7cff;
-  top: -100px;
-  left: -100px;
+  top: -120px;
+  left: -120px;
 }
 
 .glow2 {
@@ -42,27 +34,44 @@
   right: -150px;
 }
 
-/* ===== CONTAINER ===== */
+/* ================= PARTICLES ================= */
+
+.particles::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 40%, white 2px, transparent 2px),
+    radial-gradient(circle at 70% 20%, white 2px, transparent 2px),
+    radial-gradient(circle at 40% 80%, white 2px, transparent 2px);
+  opacity: 0.25;
+  animation: sparkle 6s linear infinite;
+}
+
+@keyframes sparkle {
+  from { transform: translateY(0); }
+  to { transform: translateY(-60px); }
+}
+
+/* ================= CONTAINER ================= */
 
 .hero-container {
   position: relative;
   z-index: 2;
-
   max-width: 1300px;
   margin: auto;
   padding: 2rem;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 3rem;
 }
 
-/* ===== LEFT CONTENT ===== */
+/* ================= LEFT CONTENT ================= */
 
 .hero-content {
   flex: 1;
-  animation: fadeSlideLeft 1s ease;
+  animation: fadeLeft 1s ease;
 }
 
 .hero-title {
@@ -78,7 +87,7 @@
   max-width: 420px;
 }
 
-/* ===== BUTTONS ===== */
+/* ================= BUTTONS ================= */
 
 .hero-buttons {
   margin-top: 2rem;
@@ -88,115 +97,134 @@
 
 .btn-primary {
   padding: 0.9rem 2rem;
-  border-radius: 10px;
+  border-radius: 12px;
   border: none;
-
   background: linear-gradient(120deg,#5c7cff,#7d9cff);
   color: white;
   font-weight: 600;
-
   cursor: pointer;
   transition: 0.3s;
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.3);
 }
 
 .btn-secondary {
   padding: 0.9rem 2rem;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.5);
   background: transparent;
   color: white;
-  cursor: pointer;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .btn-secondary:hover {
   background: rgba(255,255,255,0.15);
 }
 
-/* ===== IMAGE SECTION ===== */
+/* ================= RIGHT SIDE ================= */
 
 .hero-image-wrapper {
   flex: 1;
   position: relative;
-  animation: fadeSlideRight 1s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+  animation: fadeRight 1s ease;
+}
+
+/* ================= GLASS DASHBOARD CARD ================= */
+
+.dashboard-card {
+  position: relative;
+  padding: 28px;
+  border-radius: 30px;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.18),
+    rgba(255,255,255,0.05)
+  );
+  backdrop-filter: blur(25px);
+  box-shadow: 0 25px 70px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease;
+}
+
+/* Glow behind dashboard */
+
+.dashboard-glow {
+  position: absolute;
+  width: 85%;
+  height: 85%;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+      rgba(140,120,255,0.45),
+      transparent);
+  filter: blur(90px);
+  z-index: 0;
 }
 
 .hero-dashboard {
-  width: 100%;
-  max-width: 600px;
+  width: 520px;
+  max-width: 100%;
   border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  position: relative;
+  z-index: 2;
 }
 
-/* ===== FLOATING CARDS ===== */
+/* ================= FLOATING CARDS ================= */
 
 .floating-card {
   position: absolute;
   padding: 12px 16px;
-  border-radius: 12px;
-
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(10px);
-
+  border-radius: 14px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(12px);
   font-size: 1.2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   animation: float 4s ease-in-out infinite;
 }
 
 .card1 {
-  top: 30%;
-  left: -30px;
+  top: 35%;
+  left: -40px;
 }
 
 .card2 {
-  bottom: 25%;
-  right: -30px;
+  bottom: 20%;
+  right: -40px;
   animation-delay: 1s;
 }
 
 .card3 {
-  top: 10%;
-  right: 50px;
+  top: 8%;
+  right: 40px;
   animation-delay: 2s;
 }
 
-/* ===== ANIMATIONS ===== */
+/* ================= ANIMATIONS ================= */
 
 @keyframes float {
   0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-14px); }
 }
 
-@keyframes fadeSlideLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+@keyframes fadeLeft {
+  from { opacity:0; transform: translateX(-40px); }
+  to { opacity:1; transform: translateX(0); }
 }
 
-@keyframes fadeSlideRight {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+@keyframes fadeRight {
+  from { opacity:0; transform: translateX(40px); }
+  to { opacity:1; transform: translateX(0); }
 }
 
-/* ===== RESPONSIVE ===== */
+/* ================= RESPONSIVE ================= */
 
 @media (max-width: 900px) {
-
   .hero-container {
     flex-direction: column;
     text-align: center;
@@ -209,5 +237,4 @@
   .hero-dashboard {
     max-width: 420px;
   }
-
 }
