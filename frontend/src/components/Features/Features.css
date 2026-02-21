@@ -1,0 +1,132 @@
+/* Moving gradient background */
+.features-section {
+  padding: 140px 20px;
+  background: linear-gradient(-45deg, #1f2f98, #2c54d3, #3e7bdc, #5c7cff);
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease infinite;
+  color: white;
+  overflow: hidden;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Container */
+.features-container {
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+}
+
+.features-title {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.features-subtitle {
+  margin: 20px 0 70px;
+  opacity: 0.85;
+}
+
+/* Grid */
+.features-grid {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+/* Card */
+.feature-card {
+  width: 340px;
+  padding: 45px 30px;
+  border-radius: 30px;
+  backdrop-filter: blur(30px);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+  transition: 0.4s ease;
+  position: relative;
+}
+
+.feature-card:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 35px 80px rgba(0,0,0,0.35);
+}
+
+/* Icon */
+.feature-icon {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #7d9cff, #5c7cff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Confidence Meter */
+.confidence-meter {
+  margin-top: 20px;
+}
+
+.circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: conic-gradient(#7d9cff 82%, rgba(255,255,255,0.1) 0%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.circle span {
+  font-weight: bold;
+}
+
+/* SHAP Popup */
+.shap-popup {
+  margin-top: 20px;
+  background: rgba(0,0,0,0.4);
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.waterfall {
+  padding: 6px;
+  margin: 6px 0;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.positive {
+  background: rgba(100,255,180,0.2);
+}
+
+.negative {
+  background: rgba(255,100,120,0.2);
+}
+
+/* Report Graph */
+.report-graph {
+  height: 6px;
+  width: 70%;
+  margin: 20px auto;
+  background: linear-gradient(90deg, #7d9cff, #5c7cff);
+  border-radius: 6px;
+  animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+  from { width: 50%; }
+  to { width: 85%; }
+}
+
+@media (max-width: 900px) {
+  .features-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+}
