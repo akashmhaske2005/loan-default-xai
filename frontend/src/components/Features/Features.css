@@ -98,11 +98,17 @@
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  background: conic-gradient(#7d9cff 82%, rgba(255,255,255,0.1) 0%);
+  background: conic-gradient(#7d9cff var(--value), rgba(255,255,255,0.1) 0%);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: auto;
+  animation: fillMeter 2s ease forwards;
+}
+
+@keyframes fillMeter {
+  from { --value: 0%; }
+  to { --value: 82%; }
 }
 
 .circle span {
