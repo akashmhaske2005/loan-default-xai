@@ -78,12 +78,35 @@ const Features = () => {
             {activeCard === 2 && (
               <motion.div
                 className="shap-popup"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial="hidden"
+                animate="visible"
               >
-                <div className="waterfall positive">+ Income</div>
-                <div className="waterfall negative">- Debt</div>
-                <div className="waterfall positive">+ Credit Score</div>
+                <motion.div
+                  className="waterfall positive"
+                  initial={{ width: 0 }}
+                  animate={{ width: "80%" }}
+                  transition={{ duration: 0.6 }}
+                >
+                  + Income
+                </motion.div>
+
+                <motion.div
+                  className="waterfall negative"
+                  initial={{ width: 0 }}
+                  animate={{ width: "50%" }}
+                  transition={{ duration: 0.8 }}
+                >
+                  - Debt
+                </motion.div>
+
+                <motion.div
+                  className="waterfall positive"
+                  initial={{ width: 0 }}
+                  animate={{ width: "70%" }}
+                  transition={{ duration: 1 }}
+                >
+                  + Credit Score
+                </motion.div>
               </motion.div>
             )}
           </motion.div>

@@ -41,7 +41,7 @@
 
 /* Card */
 .feature-card {
-  width: 340px;
+  width: 304px;
   padding: 45px 30px;
   border-radius: 30px;
   backdrop-filter: blur(30px);
@@ -50,6 +50,29 @@
   box-shadow: 0 25px 60px rgba(0,0,0,0.25);
   transition: 0.4s ease;
   position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 32px;
+  background: linear-gradient(90deg, #5c7cff, #7d9cff, #5c7cff);
+  background-size: 200% 200%;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+  animation: borderFlow 3s linear infinite;
+}
+
+@keyframes borderFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }
 
 .feature-card:hover {
@@ -96,7 +119,11 @@
 
 .waterfall {
   padding: 6px;
-  margin: 6px 0;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  margin: 8px 0;
   border-radius: 6px;
   font-size: 0.85rem;
 }
