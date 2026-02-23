@@ -1,0 +1,114 @@
+/* ===== CONNECTORS ===== */
+
+.connector {
+  width: 80px;
+  height: 3px;
+  align-self: center;
+  background: linear-gradient(90deg, #5c7cff, #7d9cff);
+  box-shadow: 0 0 15px #7d9cff;
+  transform-origin: left;
+  border-radius: 5px;
+}
+
+/* Hide connectors on mobile */
+@media (max-width: 900px) {
+  .connector {
+    display: none;
+  }
+}
+
+/* ===== NEURAL NETWORK SVG ===== */
+
+.neural-svg {
+  width: 100%;
+  height: 120px;
+  margin: 20px 0;
+}
+
+.neural-line {
+  stroke: #7d9cff;
+  stroke-width: 2;
+  opacity: 0.6;
+  animation: pulseLine 3s infinite ease-in-out;
+}
+
+.neural-node {
+  fill: #5c7cff;
+  filter: drop-shadow(0 0 6px #7d9cff);
+  animation: pulseNode 2s infinite ease-in-out;
+}
+
+/* Node animation */
+@keyframes pulseNode {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Line glow animation */
+@keyframes pulseLine {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.how-section {
+  position: relative;
+  padding: 140px 20px;
+  background: linear-gradient(180deg, #0f1b4d, #142a7a);
+  color: white;
+  text-align: center;
+  overflow: hidden;
+}
+
+.bg-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(125,156,255,0.25) 0%, transparent 70%);
+  top: -200px;
+  left: -200px;
+  animation: floatGlow 12s infinite alternate ease-in-out;
+  z-index: 0;
+}
+
+@keyframes floatGlow {
+  from { transform: translateY(0px); }
+  to { transform: translateY(80px); }
+}
+
+.connector {
+  position: relative;
+  width: 80px;
+  height: 3px;
+  align-self: center;
+  background: linear-gradient(90deg, #5c7cff, #7d9cff);
+  box-shadow: 0 0 15px #7d9cff;
+  transform-origin: left;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  border-radius: 50%;
+  top: -3px;
+  animation: moveParticle 2s linear infinite;
+  box-shadow: 0 0 10px #fff;
+}
+
+@keyframes moveParticle {
+  from { left: -10px; }
+  to { left: 90px; }
+}
