@@ -1,21 +1,304 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Loan Default Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            width: 900px;
+            margin: 20px auto 0 auto;
+            text-align: center;
+        }
+
+        /* Toggle button (top row) */
+        .dark-btn {
+            padding: 10px 20px;
+            margin-bottom: 15px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Navigation buttons row (second row) */
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 8px 14px;
+            background: #2c3e50;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .nav-btn:hover,
+        .dark-btn:hover {
+            background: #1a242f;
+        }
+
+        .download-btn {
+            background: #27ae60;
+        }
+
+        .download-btn:hover {
+            background: #1e8449;
+        }
+
+        .container {
+            width: 900px;
+            margin: 20px auto 40px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1a242f;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .green {
+            background: #27ae60;
+        }
+
+        .red {
+            background: #e74c3c;
+        }
+
+        .orange {
+            background: #f39c12;
+        }
+
+        .progress-container {
+            background: #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 25px;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            text-align: center;
+            color: white;
+            line-height: 25px;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+
+        .metric-box {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .shap-bar {
+            margin: 8px 0;
+        }
+
+        .shap-label {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .shap-value {
+            height: 25px;
+            border-radius: 5px;
+        }
+
+        /* DARK MODE */
+        .dark {
+            background: #1e1e1e;
+            color: white;
+        }
+
+        .dark .card {
+            background: #2c2c2c;
+            color: white;
+        }
+
+        .dark input {
+            background: #444;
+            color: white;
+            border: 1px solid #666;
+        }
+
+        .dark .metric-box {
+            background: #3a3a3a;
+        }
+    </style>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark");
+        }
+    </script>
 </head>
+
 <body>
-    <h2>Loan Default Prediction System</h2>
 
-    <form method="POST">
-        {% for f in features %}
-            <label>{{ f }}</label><br>
-            <input type="number" step="any" name="{{ f }}" required><br><br>
-        {% endfor %}
-        <button type="submit">Predict</button>
-    </form>
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <button class="dark-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
 
-    {% if prediction %}
-        <h3>Prediction Result: {{ prediction }}</h3>
-    {% endif %}
+        <div class="nav-links">
+            <a href="/feature-importance" class="nav-btn">Global Importance</a>
+            <a href="/roc-curve" target="_blank" class="nav-btn">ROC Curve</a>
+            <a href="/download-report" class="nav-btn download-btn">Download Report</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- FORM CARD -->
+        <div class="card">
+            <h2>Loan Default Prediction System</h2>
+
+            <form method="POST">
+                {% for f in features %}
+                <label>{{ feature_display_names[f] }}</label>
+                <input type="number" step="any" name="{{ f }}" required>
+                {% endfor %}
+                <button type="submit">Predict</button>
+            </form>
+        </div>
+
+        {% if prediction %}
+        <div class="card">
+            <h2>Prediction Result</h2>
+
+            <p>
+                Prediction:
+                {% if prediction == "NO DEFAULT" %}
+                <span class="badge green">{{ prediction }}</span>
+                {% else %}
+                <span class="badge red">{{ prediction }}</span>
+                {% endif %}
+            </p>
+
+            <p>Risk Level:
+                {% if risk_level == "LOW RISK" %}
+                <span class="badge green">{{ risk_level }}</span>
+                {% elif risk_level == "MEDIUM RISK" %}
+                <span class="badge orange">{{ risk_level }}</span>
+                {% else %}
+                <span class="badge red">{{ risk_level }}</span>
+                {% endif %}
+            </p>
+
+            <p>Default Probability: {{ probability }}%</p>
+
+            <div class="progress-container">
+                <div class="progress-bar
+                    {% if probability < 30 %}
+                        green
+                    {% elif probability < 70 %}
+                        orange
+                    {% else %}
+                        red
+                    {% endif %}" style="width: {{ probability }}%;">
+                    {{ probability }}%
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if shap_pairs %}
+        <div class="card">
+            <h2>Top 5 Feature Contributions (SHAP)</h2>
+
+            {% for label, value in shap_pairs %}
+            <div class="shap-bar">
+                <div class="shap-label">
+                    {{ label }} ({{ value }})
+                </div>
+                <div class="progress-container">
+                    <div class="shap-value
+                        {% if value > 0 %}
+                            red
+                        {% else %}
+                            green
+                        {% endif %}" style="width: {{ (value|abs * 100) }}%;">
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- MODEL PERFORMANCE -->
+        <div class="card">
+            <h2>Model Performance</h2>
+            <div class="metrics">
+                <div class="metric-box"><strong>Accuracy</strong><br>{{ accuracy }}</div>
+                <div class="metric-box"><strong>ROC-AUC</strong><br>{{ roc_auc }}</div>
+                <div class="metric-box"><strong>Precision</strong><br>{{ precision }}</div>
+                <div class="metric-box"><strong>Recall</strong><br>{{ recall }}</div>
+                <div class="metric-box"><strong>F1 Score</strong><br>{{ f1 }}</div>
+            </div>
+        </div>
+
+    </div>
+
 </body>
+
 </html>

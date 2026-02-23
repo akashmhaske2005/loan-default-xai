@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confusion Matrix</title>
+</head>
+<body>
+
+<h2>Confusion Matrix</h2>
+
+<table border="1" cellpadding="15">
+<tr>
+<th></th>
+<th>Predicted Non-Default</th>
+<th>Predicted Default</th>
+</tr>
+
+<tr>
+<th>Actual Non-Default</th>
+<td>{{ cm.tn }}</td>
+<td>{{ cm.fp }}</td>
+</tr>
+
+<tr>
+<th>Actual Default</th>
+<td>{{ cm.fn }}</td>
+<td>{{ cm.tp }}</td>
+</tr>
+
+</table>
+
+<a href="/">Back to Home</a>
+
+</body>
+</html>
