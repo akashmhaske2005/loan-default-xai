@@ -707,15 +707,28 @@ def get_all_plans():
 
 
 def upgrade_subscription(user_id, plan_name, razorpay_order=None, razorpay_payment=None):
+    """
+    UPSERT subscription for a user. Always keeps exactly ONE row per user.
+    Never inserts duplicates — updates the existing row if one exists.
+    This prevents the accumulation of subscription rows on repeated upgrades/downgrades.
+    """
     conn = get_db()
     try:
-        # Deactivate existing
-        _exec(conn, "UPDATE user_subscriptions SET status='cancelled' WHERE user_id=? AND status='active'", (user_id,))
-        # Insert new
-        _exec(conn, """
-            INSERT INTO user_subscriptions (user_id, plan_name, status, razorpay_order, razorpay_payment)
-            VALUES (?, ?, 'active', ?, ?)
-        """, (user_id, plan_name, razorpay_order, razorpay_payment))
+        existing = _fetchone(conn, "SELECT id FROM user_subscriptions WHERE user_id = ?", (user_id,))
+        if existing:
+            # UPDATE existing row — never create a duplicate
+            _exec(conn, """
+                UPDATE user_subscriptions
+                SET plan_name=?, status='active', started_at=CURRENT_TIMESTAMP,
+                    razorpay_order=?, razorpay_payment=?
+                WHERE user_id=?
+            """, (plan_name, razorpay_order, razorpay_payment, user_id))
+        else:
+            # First time — safe to insert
+            _exec(conn, """
+                INSERT INTO user_subscriptions (user_id, plan_name, status, razorpay_order, razorpay_payment)
+                VALUES (?, ?, 'active', ?, ?)
+            """, (user_id, plan_name, razorpay_order, razorpay_payment))
         conn.commit()
     finally:
         conn.close()
