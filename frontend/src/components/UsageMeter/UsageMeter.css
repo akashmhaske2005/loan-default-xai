@@ -1,0 +1,68 @@
+.usage-meter {
+    background: var(--card-bg, #f8fafc);
+    border-radius: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--border, #e2e8f0);
+    margin-bottom: 4px;
+}
+
+.usage-meter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.usage-meter-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary, #64748b);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.usage-meter-plan {
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.usage-meter-bar {
+    height: 6px;
+    background: var(--border, #e2e8f0);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.usage-meter-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.5s ease;
+}
+
+.usage-meter-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.usage-meter-pct {
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.usage-upgrade-link {
+    font-size: 0.75rem;
+    color: #7c3aed;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.usage-upgrade-link:hover {
+    text-decoration: underline;
+}
+
+[data-theme="dark"] .usage-meter {
+    background: #1e293b;
+    border-color: #334155;
+}

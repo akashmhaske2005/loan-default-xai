@@ -1,0 +1,225 @@
+/* UpgradeModal overlay */
+.upgrade-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    animation: umFadeIn 0.2s ease;
+}
+
+@keyframes umFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.upgrade-modal {
+    background: var(--bg-card, #fff);
+    border-radius: 20px;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.28);
+    max-width: 680px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 36px 32px 28px;
+    position: relative;
+    animation: umSlideUp 0.22s ease;
+}
+
+@keyframes umSlideUp {
+    from {
+        transform: translateY(24px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.upgrade-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg-input, #f1f5f9);
+    color: var(--text-secondary, #64748b);
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.upgrade-modal-close:hover {
+    background: var(--border, #e2e8f0);
+}
+
+/* Header */
+.upgrade-modal-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.upgrade-modal-lock {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    animation: lockBounce 0.4s ease;
+}
+
+@keyframes lockBounce {
+    0% {
+        transform: scale(0.6);
+    }
+
+    60% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.upgrade-modal-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-primary, #0f172a);
+    margin-bottom: 8px;
+}
+
+.upgrade-modal-sub {
+    color: var(--text-secondary, #64748b);
+    font-size: 0.92rem;
+    max-width: 440px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* Plan cards */
+.upgrade-modal-plans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.upgrade-modal-plan-card {
+    border: 2px solid;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.18s;
+}
+
+.upgrade-modal-plan-card:hover {
+    transform: translateY(-3px);
+}
+
+.umpc-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+}
+
+.umpc-icon {
+    font-size: 1.6rem;
+}
+
+.umpc-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.umpc-price {
+    font-size: 0.8rem;
+    color: var(--text-secondary, #64748b);
+    font-weight: 600;
+}
+
+.umpc-perks {
+    list-style: none;
+    padding: 0 14px 12px;
+    margin: 0;
+}
+
+.umpc-perks li {
+    font-size: 0.82rem;
+    color: var(--text-secondary, #475569);
+    padding: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.umpc-btn {
+    display: block;
+    width: calc(100% - 28px);
+    margin: 0 14px 14px;
+    padding: 10px;
+    border: none;
+    border-radius: 99px;
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: opacity 0.18s, transform 0.15s;
+}
+
+.umpc-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+/* Footer */
+.upgrade-modal-footer {
+    text-align: center;
+}
+
+.upgrade-modal-all-plans {
+    background: none;
+    border: none;
+    color: var(--primary, #1a56e8);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 99px;
+    transition: background 0.15s;
+}
+
+.upgrade-modal-all-plans:hover {
+    background: rgba(26, 86, 232, 0.07);
+}
+
+/* Dark mode */
+[data-theme="dark"] .upgrade-modal {
+    background: #1e293b;
+}
+
+[data-theme="dark"] .upgrade-modal-close {
+    background: #334155;
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .upgrade-modal-title {
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .umpc-perks li {
+    color: #94a3b8;
+}

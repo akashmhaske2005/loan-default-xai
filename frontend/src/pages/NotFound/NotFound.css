@@ -1,0 +1,179 @@
+.nf-page {
+    min-height: 100vh;
+    background: var(--bg-primary, #f8fafc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.nf-content {
+    text-align: center;
+    position: relative;
+    max-width: 560px;
+    z-index: 1;
+}
+
+.nf-code-wrap {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 24px;
+}
+
+.nf-blur-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: 0;
+}
+
+.nf-blur-1 {
+    width: 180px;
+    height: 180px;
+    background: rgba(37, 99, 235, 0.25);
+    top: -20px;
+    left: -30px;
+}
+
+.nf-blur-2 {
+    width: 150px;
+    height: 150px;
+    background: rgba(124, 58, 237, 0.2);
+    bottom: -20px;
+    right: -30px;
+}
+
+.nf-code {
+    position: relative;
+    font-size: clamp(7rem, 20vw, 10rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    z-index: 1;
+    letter-spacing: -4px;
+}
+
+.nf-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 800;
+    color: var(--text-primary, #0f172a);
+    margin: 0 0 12px;
+}
+
+.nf-sub {
+    font-size: 1rem;
+    color: var(--text-secondary, #64748b);
+    line-height: 1.6;
+    margin-bottom: 32px;
+}
+
+.nf-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+}
+
+.nf-btn {
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s, opacity 0.2s, box-shadow 0.2s;
+}
+
+.nf-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+}
+
+.nf-btn--primary {
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+}
+
+.nf-btn--secondary {
+    background: var(--card-bg, #fff);
+    color: var(--text-primary, #1e293b);
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Orbital decoration */
+.nf-decoration {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+}
+
+.nf-orbit {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px dashed rgba(37, 99, 235, 0.2);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 8s linear infinite;
+}
+
+.nf-orbit--1 {
+    width: 120px;
+    height: 120px;
+}
+
+.nf-orbit--2 {
+    width: 80px;
+    height: 80px;
+    animation-direction: reverse;
+    animation-duration: 5s;
+    border-color: rgba(124, 58, 237, 0.25);
+}
+
+.nf-planet {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.4rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) translateY(0);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) translateY(-10px);
+    }
+}
+
+[data-theme="dark"] .nf-page {
+    background: #0f172a;
+}
+
+[data-theme="dark"] .nf-title {
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .nf-btn--secondary {
+    background: #1e293b;
+    color: #e2e8f0;
+    border-color: #334155;
+}
