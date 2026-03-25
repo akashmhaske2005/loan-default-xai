@@ -1071,55 +1071,42 @@ def user_export_csv(current_user):
 @require_auth
 def api_add_prediction_quota(current_user):
     """
-    Purchase 500 extra predictions add-on.
-    Creates a Razorpay order for ₹499. Activation happens only after
-    payment is verified via /api/payment/verify with plan='addon'.
+    Purchase 500 extra predictions add-on for ₹499.
+    Always requires Razorpay payment — no free demo mode.
+    Returns Razorpay order_id for frontend to open checkout.
+    Activation happens only after /api/payment/verify is called.
     """
     ADDON_AMOUNT_INR = 499
 
     razorpay_key_id     = os.environ.get("RAZORPAY_KEY_ID", "")
     razorpay_key_secret = os.environ.get("RAZORPAY_KEY_SECRET", "")
 
-    if razorpay_key_id and razorpay_key_secret:
-        try:
-            import razorpay as _rzp
-            client = _rzp.Client(auth=(razorpay_key_id, razorpay_key_secret))
-            order = client.order.create({
-                "amount":   ADDON_AMOUNT_INR * 100,  # paise
-                "currency": "INR",
-                "receipt":  f"addon_{current_user['id']}",
-                "notes":    {"user_id": str(current_user["id"]), "plan": "addon"},
-            })
-            _audit_log(current_user["id"], "addon_order_created", "subscription",
-                       order.get("id"), "extra_predictions+500", _client_ip())
-            return jsonify({
-                "razorpay_key": razorpay_key_id,
-                "order_id":     order["id"],
-                "amount":       order["amount"],
-                "currency":     "INR",
-                "plan":         "addon",
-            })
-        except ImportError:
-            pass  # SDK not installed — fall through to demo mode
-        except Exception as e:
-            return jsonify({"error": f"Payment gateway error: {str(e)}"}), 502
+    if not razorpay_key_id or not razorpay_key_secret:
+        return jsonify({"error": "Payment gateway not configured. Contact support."}), 402
 
-    # Demo / no SDK — activate directly (dev only)
-    conn = get_db()
     try:
-        try:
-            _exec(conn, "ALTER TABLE user_subscriptions ADD COLUMN extra_predictions INTEGER DEFAULT 0")
-            conn.commit()
-        except Exception:
-            conn.rollback() if _USE_POSTGRES else None
-        _exec(conn, """
-            UPDATE user_subscriptions SET extra_predictions = COALESCE(extra_predictions, 0) + 500
-            WHERE user_id=? AND status='active'
-        """, (current_user["id"],))
-        conn.commit()
-    finally:
-        conn.close()
-    return jsonify({"success": True, "message": "500 extra predictions added (demo mode).", "added": 500})
+        import razorpay as _rzp
+        client = _rzp.Client(auth=(razorpay_key_id, razorpay_key_secret))
+        order = client.order.create({
+            "amount":   ADDON_AMOUNT_INR * 100,  # paise
+            "currency": "INR",
+            "receipt":  f"addon_{current_user['id']}",
+            "notes":    {"user_id": str(current_user["id"]), "plan": "addon"},
+        })
+        _audit_log(current_user["id"], "addon_order_created", "subscription",
+                   order.get("id"), "extra_predictions+500", _client_ip())
+        return jsonify({
+            "razorpay_key": razorpay_key_id,
+            "order_id":     order["id"],
+            "amount":       order["amount"],
+            "currency":     "INR",
+            "plan":         "addon",
+        })
+    except ImportError:
+        return jsonify({"error": "Payment SDK not installed on server. Contact support."}), 503
+    except Exception as e:
+        return jsonify({"error": f"Payment gateway error: {str(e)}"}), 502
+
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
