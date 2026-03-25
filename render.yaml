@@ -1,5 +1,4 @@
 services:
-  # ─── Backend only (Frontend goes to Vercel, DB goes to Supabase) ──────────
   - type: web
     name: loanxai-backend
     runtime: python
@@ -7,10 +6,12 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn -w 2 -b 0.0.0.0:$PORT --timeout 120 app.app:app
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
       - key: FLASK_ENV
         value: production
       - key: DATABASE_URL
-        sync: false        # Paste your Supabase connection string here
+        sync: false
       - key: JWT_SECRET
         generateValue: true
       - key: ADMIN_SECRET_KEY
@@ -18,7 +19,7 @@ services:
       - key: SESSION_EXPIRY_HOURS
         value: "24"
       - key: APP_URL
-        sync: false        # Your Vercel frontend URL: https://loanxai.vercel.app
+        sync: false
       - key: RAZORPAY_KEY_ID
         sync: false
       - key: RAZORPAY_KEY_SECRET
