@@ -16,6 +16,15 @@ try:
     LIMITER_AVAILABLE = True
 except ImportError:
     LIMITER_AVAILABLE = False
+
+# Razorpay SDK — required for payments. Install: pip install razorpay
+try:
+    import razorpay as _razorpay_sdk
+    RAZORPAY_AVAILABLE = True
+except ImportError:
+    _razorpay_sdk = None
+    RAZORPAY_AVAILABLE = False
+    print("[WARNING] razorpay SDK not installed. Run: pip install razorpay")
 import joblib
 import pandas as pd
 import shap
@@ -904,12 +913,14 @@ def api_upgrade_subscription(current_user):
     if not razorpay_key_id or not razorpay_key_secret:
         return jsonify({"error": "Payment gateway not configured. Contact support."}), 402
 
+    if not RAZORPAY_AVAILABLE:
+        return jsonify({"error": "Payment SDK not available on server. Contact support."}), 503
+
     plans_price = {"starter": 2999, "professional": 7999, "enterprise": 24999}
     amount_inr  = plans_price.get(plan_name, 0)
 
     try:
-        import razorpay as _rzp
-        client = _rzp.Client(auth=(razorpay_key_id, razorpay_key_secret))
+        client = _razorpay_sdk.Client(auth=(razorpay_key_id, razorpay_key_secret))
         order = client.order.create({
             "amount":   amount_inr * 100,   # paise
             "currency": "INR",
@@ -925,9 +936,6 @@ def api_upgrade_subscription(current_user):
             "currency":      "INR",
             "plan":          plan_name,
         })
-    except ImportError:
-        # SDK missing — block the request, do NOT fall through to direct activation
-        return jsonify({"error": "Payment SDK not installed on server. Contact support."}), 503
     except Exception as e:
         return jsonify({"error": f"Payment gateway error: {str(e)}"}), 502
 
@@ -1080,9 +1088,11 @@ def api_add_prediction_quota(current_user):
     if not razorpay_key_id or not razorpay_key_secret:
         return jsonify({"error": "Payment gateway not configured. Contact support."}), 402
 
+    if not RAZORPAY_AVAILABLE:
+        return jsonify({"error": "Payment SDK not available on server. Contact support."}), 503
+
     try:
-        import razorpay as _rzp
-        client = _rzp.Client(auth=(razorpay_key_id, razorpay_key_secret))
+        client = _razorpay_sdk.Client(auth=(razorpay_key_id, razorpay_key_secret))
         order = client.order.create({
             "amount":   ADDON_AMOUNT_INR * 100,  # paise
             "currency": "INR",
@@ -1098,8 +1108,6 @@ def api_add_prediction_quota(current_user):
             "currency":     "INR",
             "plan":         "addon",
         })
-    except ImportError:
-        return jsonify({"error": "Payment SDK not installed on server. Contact support."}), 503
     except Exception as e:
         return jsonify({"error": f"Payment gateway error: {str(e)}"}), 502
 
