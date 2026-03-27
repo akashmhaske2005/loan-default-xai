@@ -58,3 +58,4 @@ dist/
 Thumbs.db
 backend/data/*.db
 backend/data/*.db
+backend/data/*.db
