@@ -880,7 +880,9 @@ def api_get_subscription(current_user):
 def api_upgrade_subscription(current_user):
     """
     Upgrade user's subscription.
-    Creates a Razorpay order if keys are configured, otherwise applies directly (demo/test mode).
+    SECURITY: Always requires Razorpay payment for paid plans.
+    - Free downgrade: allowed without payment
+    - Paid plans: MUST go through Razorpay order → verify flow
     """
     body = request.get_json(force=True)
     plan_name = body.get("plan", "starter")
@@ -888,53 +890,47 @@ def api_upgrade_subscription(current_user):
     if plan_name not in valid_plans:
         return jsonify({"error": "Invalid plan."}), 400
 
-    razorpay_key_id     = os.environ.get("RAZORPAY_KEY_ID", "")
-    razorpay_key_secret = os.environ.get("RAZORPAY_KEY_SECRET", "")
+    # Free downgrade — no payment needed
+    if plan_name == "free":
+        upgrade_subscription(current_user["id"], "free")
+        _audit_log(current_user["id"], "subscription_downgraded", "subscription",
+                   None, "plan=free", _client_ip())
+        return jsonify({"success": True, "plan": "free", "message": "Downgraded to Free plan."})
+
+    # --- All paid plans require Razorpay payment ---
+    razorpay_key_id     = os.environ.get("RAZORPAY_KEY_ID", "").strip()
+    razorpay_key_secret = os.environ.get("RAZORPAY_KEY_SECRET", "").strip()
+
+    if not razorpay_key_id or not razorpay_key_secret:
+        return jsonify({"error": "Payment gateway not configured. Contact support."}), 402
 
     plans_price = {"starter": 2999, "professional": 7999, "enterprise": 24999}
     amount_inr  = plans_price.get(plan_name, 0)
 
-    # Free downgrade — apply directly, no payment needed
-    if plan_name == "free":
-        upgrade_subscription(current_user["id"], "free")
-        return jsonify({"success": True, "plan": "free", "message": "Downgraded to Free plan."})
+    try:
+        import razorpay as _rzp
+        client = _rzp.Client(auth=(razorpay_key_id, razorpay_key_secret))
+        order = client.order.create({
+            "amount":   amount_inr * 100,   # paise
+            "currency": "INR",
+            "receipt":  f"loanxai_{current_user['id']}_{plan_name}",
+            "notes":    {"user_id": str(current_user["id"]), "plan": plan_name},
+        })
+        _audit_log(current_user["id"], "payment_order_created", "subscription",
+                   order.get("id"), f"plan={plan_name}", _client_ip())
+        return jsonify({
+            "razorpay_key":  razorpay_key_id,
+            "order_id":      order["id"],
+            "amount":        order["amount"],
+            "currency":      "INR",
+            "plan":          plan_name,
+        })
+    except ImportError:
+        # SDK missing — block the request, do NOT fall through to direct activation
+        return jsonify({"error": "Payment SDK not installed on server. Contact support."}), 503
+    except Exception as e:
+        return jsonify({"error": f"Payment gateway error: {str(e)}"}), 502
 
-    # If Razorpay keys configured, create a real order
-    if razorpay_key_id and razorpay_key_secret and amount_inr > 0:
-        try:
-            import razorpay as _rzp
-            client = _rzp.Client(auth=(razorpay_key_id, razorpay_key_secret))
-            order = client.order.create({
-                "amount":   amount_inr * 100,   # paise
-                "currency": "INR",
-                "receipt":  f"loanxai_{current_user['id']}_{plan_name}",
-                "notes":    {"user_id": str(current_user["id"]), "plan": plan_name},
-            })
-            _audit_log(current_user["id"], "payment_order_created", "subscription",
-                       order.get("id"), f"plan={plan_name}", _client_ip())
-            return jsonify({
-                "razorpay_key":  razorpay_key_id,
-                "order_id":      order["id"],
-                "amount":        order["amount"],
-                "currency":      "INR",
-                "plan":          plan_name,
-            })
-        except ImportError:
-            # razorpay SDK not installed — fall through to direct activation
-            pass
-        except Exception as e:
-            return jsonify({"error": f"Payment gateway error: {str(e)}"}), 502
-
-    # Demo / no SDK — apply directly
-    razorpay_payment = body.get("razorpay_payment_id")
-    upgrade_subscription(current_user["id"], plan_name, razorpay_payment=razorpay_payment)
-    _audit_log(current_user["id"], "subscription_upgraded", "subscription",
-               None, f"plan={plan_name} (demo mode)", _client_ip())
-    return jsonify({
-        "success": True,
-        "plan":    plan_name,
-        "message": f"Successfully upgraded to {plan_name} plan!"
-    })
 
 
 # ─── Payment verification ─────────────────────────────────────────────────────

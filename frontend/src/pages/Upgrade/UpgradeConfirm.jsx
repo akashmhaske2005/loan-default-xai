@@ -57,7 +57,7 @@ export default function UpgradeConfirm() {
     const handleConfirm = async () => {
         setLoading(true); setError("");
         try {
-            // Step 1: Create order on backend
+            // Step 1: Create Razorpay order on backend
             const endpoint = isAddon ? "/api/subscription/add-predictions" : "/api/subscription/upgrade";
             const body = isAddon ? {} : { plan: planName };
 
@@ -70,68 +70,64 @@ export default function UpgradeConfirm() {
 
             if (res.status === 401) { setError("Session expired. Please log in again."); setLoading(false); return; }
 
-            // If backend returned a Razorpay order, open payment popup
-            if (data.razorpay_key && data.order_id) {
-                const loaded = await loadRazorpay();
-                if (!loaded) { setError("Failed to load Razorpay. Please check your internet connection."); setLoading(false); return; }
+            // Payment required for all plans — must get a Razorpay order_id
+            if (!data.razorpay_key || !data.order_id) {
+                setError(data.error || "Unable to initiate payment. Please try again or contact support.");
+                setLoading(false);
+                return;
+            }
 
-                const options = {
-                    key: data.razorpay_key,
-                    amount: data.amount,
-                    currency: data.currency || "INR",
-                    name: "LoanXAI",
-                    description: isAddon ? `Add-on: ${addonName}` : `${plan.name} Plan Subscription`,
-                    order_id: data.order_id,
-                    image: "/logo.png",
-                    prefill: {
-                        name: user?.full_name || "",
-                        email: user?.email || "",
-                    },
-                    theme: { color: plan.color },
-                    handler: async (response) => {
-                        // Step 2: Verify payment on backend
-                        try {
-                            const vRes = await fetch("/api/payment/verify", {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-                                body: JSON.stringify({
-                                    razorpay_payment_id: response.razorpay_payment_id,
-                                    razorpay_order_id: response.razorpay_order_id,
-                                    razorpay_signature: response.razorpay_signature,
-                                    plan: isAddon ? "addon" : planName,
-                                }),
-                            });
-                            const vData = await vRes.json();
-                            if (vData.success) {
-                                if (!isAddon) updateUserPlan(planName);
-                                navigate("/upgrade-success", { state: { plan: planName, planDisplay: plan.name } });
-                            } else {
-                                setError(vData.error || "Payment verification failed. Contact support.");
-                            }
-                        } catch {
-                            setError("Payment verified but activation failed. Contact support with your payment ID: " + response.razorpay_payment_id);
-                        } finally {
-                            setLoading(false);
+            // Step 2: Load Razorpay checkout.js and open payment modal
+            const loaded = await loadRazorpay();
+            if (!loaded) { setError("Failed to load Razorpay. Please check your internet connection."); setLoading(false); return; }
+
+            const options = {
+                key: data.razorpay_key,
+                amount: data.amount,
+                currency: data.currency || "INR",
+                name: "LoanXAI",
+                description: isAddon ? `Add-on: ${addonName}` : `${plan.name} Plan Subscription`,
+                order_id: data.order_id,
+                image: "/logo.png",
+                prefill: {
+                    name: user?.full_name || "",
+                    email: user?.email || "",
+                },
+                theme: { color: plan.color },
+                handler: async (response) => {
+                    // Step 3: Verify HMAC signature on backend — this is the only activation path
+                    try {
+                        const vRes = await fetch("/api/payment/verify", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+                            body: JSON.stringify({
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_signature: response.razorpay_signature,
+                                plan: isAddon ? "addon" : planName,
+                            }),
+                        });
+                        const vData = await vRes.json();
+                        if (vData.success) {
+                            if (!isAddon) updateUserPlan(planName);
+                            navigate("/upgrade-success", { state: { plan: planName, planDisplay: plan.name } });
+                        } else {
+                            setError(vData.error || "Payment verification failed. Contact support.");
                         }
-                    },
-                    modal: {
-                        ondismiss: () => { setLoading(false); }
+                    } catch {
+                        setError("Payment recorded but activation failed. Contact support with payment ID: " + response.razorpay_payment_id);
+                    } finally {
+                        setLoading(false);
                     }
-                };
-                new window.Razorpay(options).open();
-                return; // keep loading until handler fires
-            }
-
-            // No order_id from backend (test/demo mode): direct activation
-            if (data.success) {
-                if (!isAddon) updateUserPlan(planName);
-                navigate("/upgrade-success", { state: { plan: planName, planDisplay: plan.name } });
-            } else {
-                setError(data.error || "Upgrade failed. Please try again.");
-            }
+                },
+                modal: {
+                    ondismiss: () => { setLoading(false); }
+                }
+            };
+            new window.Razorpay(options).open();
+            return; // keep loading spinner until handler fires or modal dismissed
         } catch {
             setError("Network error. Please check your connection and try again.");
-        } finally {
             setLoading(false);
         }
     };
