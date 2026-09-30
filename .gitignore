@@ -28,6 +28,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+<<<<<<< HEAD
 
 # Secrets
 backend/.env
@@ -59,3 +60,5 @@ Thumbs.db
 backend/data/*.db
 backend/data/*.db
 backend/data/*.db
+=======
+>>>>>>> shashi-init
